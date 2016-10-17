@@ -1,0 +1,64 @@
+PL 1 DMSA Asgn 3
+PL/ SQL
+Create a PL/SQL block that computes the Bonus  amount for a given employee based on the employee’s salary.
+Test the PL/SQL block for each case using the following test cases.
+
+mysql> delimiter //
+mysql> create procedure calc_bonus(in v_eid int,out eid int, out v_bonus int) 
+    begin 
+    declare sal int; 
+    select salary into sal from emp where empid=v_eid; 
+    if sal<5000 then set v_bonus = 0.1*sal; 
+    elseif (sal>=5000 and sal<10000) then 
+    set v_bonus =0.15*sal; 
+    elseif (sal>=10000) then 
+    set v_bonus = 0.2*sal; 
+    elseif sal is NULL then 
+    set v_bonus=0; 
+    end if; 
+    set eid = v_eid; 
+    end // 
+Query OK, 0 rows affected (0.01 sec) 
+
+mysql> delimiter ; 
+
+mysql> call bonus1 (750,@empno, @bonus);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @empno, @bonus; 
++--------+--------+ 
+| @empno | @bonus | 
++--------+--------+ 
+|    750 |   100 | 
++--------+--------+ 
+1 row in set (0.00 sec) 
+
+
+Write SQL Function to calculate Tax on Employee’s Salary
+mysql>  CREATE FUNCTION calc_tax(eid int) 
+RETURNS int(11) 
+begin 
+declare tax int; 
+declare sal int; 
+select salary into sal from emp where empid = eid; 
+if sal<2000 then set tax=0; 
+elseif (sal>=2000 and sal<5000) then set tax = 0.1*sal; 
+elseif (sal>=5000 and sal<10000) then set tax = 0.2*sal; 
+else set tax = 0.3*sal; 
+end if; 
+return tax; 
+end 
+
+
+mysql> select * from employee;
+7 rows in set (0.00 sec)
+
+mysql>  select calc_tax(4367) "tax";
++------+
+| tax  |
++------+
+| 1400 |
++------+
+1 row in set (0.00 sec)
+
+

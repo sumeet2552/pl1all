@@ -1,0 +1,43 @@
+#1.inode.py
+
+import os,sys,time
+print 'Enter file name: '
+path=raw_input()
+fd=os.open(path,os.O_RDWR)
+sbuff=os.fstat(fd)
+
+print "\nFile sbuffrmation is as follows:"
+print "\nFile inode number:", sbuff.st_ino
+print "\nDevice number:", sbuff.st_dev
+print "\nNumber of link:", sbuff.st_nlink
+print "\nUID of the file:%d" %sbuff.st_uid
+print "\nGID of the file:%d" %sbuff.st_gid
+print "\nSize:", sbuff.st_size
+print "\nAccess time:", time.ctime(sbuff.st_atime)
+print "\nModify time:", time.ctime(sbuff.st_mtime)
+print "\nChange time:", time.ctime(sbuff.st_ctime)
+print "\nProtection:", sbuff.st_mode
+print "\nNumber of blocks allocated:", sbuff.st_blocks
+print "\nSize of blocks:", sbuff.st_blksize
+ 
+os.close(fd)
+
+'''
+Output:
+
+Enter file name
+/home/apr/Desktop/temp.txt
+File sbuffrmation is as follows:
+File inode number: 423838
+Device number: 2049
+Number of link: 1
+UID of the file:1000
+GID of the file:1000
+Size: 0
+Access time: Wed Jul  6 09:34:26 2016
+Modify time: Wed Apr 13 21:28:12 2016
+Change time: Wed Apr 13 21:28:12 2016
+Protection: 33204
+Number of blocks allocated: 0
+Size of blocks: 4096
+'''

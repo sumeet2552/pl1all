@@ -1,0 +1,42 @@
+#Asgn A5 IPC -Pipes
+
+
+#!/usr/bin/python
+import os,sys
+class pipe:
+        def unnamed(self):
+                fdr,fdw=os.pipe()
+                pid=os.fork()
+                if pid:
+                    os.close(fdw)
+                    fdr=os.fdopen(fdr)
+                    str=fdr.read()
+                    str=str[::-1]
+                    print "\n\n\t-----In child process-----"
+                    print "\n\n\tReversed string: ",str
+                    sys.exit(0)
+                else:
+                    os.close(fdr) 
+                    print "\n\n\t-----In parent process-----"
+                    str1=raw_input("\n\n\tEnter string: ")
+                    fdw=os.fdopen(fdw,'w')
+                    fdw.write(str1)
+                    fdw.close()
+                    sys.exit(0)
+
+ob=pipe()
+ob.unnamed()
+
+'''
+
+Output:
+apr@CCOMPL08-25:~/Downloads$ python IPC.py
+
+	-----In parent process-----
+
+	Enter string: abc
+
+	-----In child process-----
+
+	Reversed string:  cba
+'''

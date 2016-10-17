@@ -1,0 +1,98 @@
+
+PL 1 DMSA Assignment 10
+PyMongo
+
+$ cd mongodb/
+/mongodb$ cd bin/
+/mongodb/bin$ python
+Python 2.7.6 (default, Mar 22 2014, 22:59:56) 
+[GCC 4.8.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from pymongo import MongoClient
+>>> curr=MongoClient()
+>>> db=curr.blog
+>>> db
+Database(MongoClient('localhost', 27017), u'blog')
+************************************1 *************************************
+Part A: Create  Blog Database and create posts collection with below keys and insert 5 posts for 3 different authors. 
+{	Author:
+	Date:
+	Title:
+	tags: [  ]
+	body : 
+	comment:[
+			{	Author:
+				Date:
+				Comment_text:
+				Votes:
+			},
+         			{	Author:
+				Date:
+				Comment_text:
+				Votes:
+			}
+		    ]
+         total_comments: 
+}
+
+
+>>> db.blogdata.insert({'Author':'JKR','Date':'1995-02-03','Title':'Harry stone','Tags':['magic','beginning'],'Body':'just a strat to a magical journey!','Comment':[{'Author':'Akki','Date':'1995-02-05','Comment_text':'awesomee!','Votes':'7'},{'Author':'Atti','Date':'1995-02-06','Comment_text':'amazing!','Votes':'9'}],'Total_comments':'2'})
+ObjectId('54149ce51d41c80ecae3154b')
+
+>>> cur=db.blogdata.find()
+>>> cur.next()
+{u'Body': u'just a strat to a magical journey!', u'Comment': [{u'Date': u'1995-02-05', u'Votes': u'7', u'Comment_text': u'awesomee!', u'Author': u'Akki'}, {u'Date': u'1995-02-06', u'Votes': u'9', u'Comment_text': u'amazing!', u'Author': u'Atti'}], u'Total_comments': u'2', u'Author': u'JKR', u'Tags': [u'magic', u'beginning'], u'Date': u'1995-02-03', u'Title': u'Harry stone', u'_id': ObjectId('54149ce51d41c80ecae3154b')}
+
+db.blogdata.insert({'Author':'JKR','Date':'1996-03-01','Title':'Harry secret','Tags':['magic','mystery','secret'],'Body':'A secret world!','Comment':[{'Author':'Anni','Date':'1996-03-06','Comment_text':'full of secrets!','Votes':'207'},{'Author':'Arri','Date':'1996-03-07','Comment_text':'looking forward to the next one!','Votes':'119'}],'Total_comments':'2'})
+ObjectId('54149e971d41c80ecae3154c')
+
+>>> db.blogdata.insert({'Author':'Bhagat','Date':'2005-11-09','Title':'States','Tags':['romance','marraige'],'Body':'Punjab vs Tamil Nadu!','Comment':[{'Author':'Pan','Date':'2005-11-11','Comment_text':'Full of fun','Votes':'107'}],'Total_comments':'1'})
+ObjectId('5414a0051d41c80ecae3154e')
+
+>>> db.blogdata.insert({'Author':'JKR','Date':'2008-09-01','Title':'Harry hallows','Tags':['magic','mystery','end'],'Body':'Finally it concludes. A great journey!','Comment':[{'Author':'Addi','Date':'2008-09-06','Comment_text':'Wished it never ended','Votes':'1007'},{'Author':'Avvi','Date':'2008-09-07','Comment_text':'Best ever!','Votes':'1119'}],'Total_comments':'2'})
+ObjectId('5414a1b41d41c80ecae3154f')
+
+>>> db.blogdata.insert({'Author':'A Doyle','Date':'2011-12-01','Title':'Sherlock','Tags':['mystery'],'Body':'Wont fail to surprise you every time','Comment':[{'Author':'Aggi','Date':'2011-12-02','Comment_text':'Beyond thoughts','Votes':'1022'},{'Author':'Alli','Date':'2011-12-27','Comment_text':'Cant beat this.','Votes':'1419'}],'Total_comments':'2'})
+ObjectId('5414a2dd1d41c80ecae31551')
+
+************************************2 *************************************
+2. Display tags key in inserted documents.
+>>> cur=db.blogdata.find({},{'Tags':1,'_id':0})
+>>> for d in cur:
+...     print d
+... 
+{u'Tags': [u'magic', u'beginning']}
+{u'Tags': [u'magic', u'mystery', u'secret']}
+{u'Tags': [u'romance', u'marraige']}
+{u'Tags': [u'magic', u'mystery', u'end']}
+{u'Tags': [u'mystery']}
+************************************3 *************************************
+Count total no. of posts.
+>>> db.blogdata.count()
+5
+
+************************************4 *************************************
+Add new tag for a post.
+>>> cur=db.blogdata.update({'Author':'A Doyle'},{'$push':{'Tags':'detective'}})>>> cur=db.blogdata.find({},{'Tags':1,'_id':0})
+>>> for d in cur:
+...     print d
+... 
+{u'Tags': [u'magic', u'beginning']}
+{u'Tags': [u'magic', u'mystery', u'secret']}
+{u'Tags': [u'romance', u'marraige']}
+{u'Tags': [u'magic', u'mystery', u'end']}
+{u'Tags': [u'mystery', u'detective']}
+
+************************************5 *************************************
+Delete a post.
+
+>>> db.blogdata.remove({'Title':'Harry secret'})
+{u'connectionId': 2, u'ok': 1.0, u'err': None, u'n': 1}
+>>> db.blogdata.count()
+4
+
+
+**************************************************************************
+
+
+

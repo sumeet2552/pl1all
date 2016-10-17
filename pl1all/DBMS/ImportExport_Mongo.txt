@@ -1,0 +1,18 @@
+
+Import Zips database in MongoDB by using mongoimport.
+
+mrunmayi@ubuntu:~$ mongoimport -d temp -c zipdb --file /home/mrunmayi/Desktop/zips.json 
+connected to: 127.0.0.1 
+2016-10-15T19:26:08.519+0530 check 9 29467 
+2016-10-15T19:26:08.865+0530 imported 29467 objects 
+mrunmayi@ubuntu:~$ 
+
+
+---------------------------------------------------------------------
+Export student collection into student.json.
+
+mrunmayi@ubuntu:~$ mongoexport -d college -c student -o student.json 
+connected to: 127.0.0.1 
+exported 5 records 
+mrunmayi@ubuntu:~$ 
+---------------------------------------------------------------------

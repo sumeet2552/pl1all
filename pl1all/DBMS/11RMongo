@@ -1,0 +1,43 @@
+apr@C04L0827:~$ R
+
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(RMongo) 		//install.packages("RMongo")
+Loading required package: rJava
+> mg1<-mongoDbConnect('mydata')
+> print(dbShowCollections(mg1))
+[1] "count1"         "system.indexes" "zip"           
+> query<-dbGetQuery(mg1,'zip',"{'city':'HADLEY'}")
+> data1<-query[c('city')]
+> data1
+    city
+1 HADLEY
+2 HADLEY
+3 HADLEY
+4 HADLEY
+> query<-dbAggregate(mg1,'zip',c('{"$sort":{"pop":-1}}','{"$limit":5}'))
+> data1<-query[]
+> data1
+[1] "{ \"_id\" : \"60623\" , \"city\" : \"CHICAGO\" , \"loc\" : [ -87.7157 , 41.849015] , \"pop\" : 112047 , \"state\" : \"IL\"}"      
+[2] "{ \"_id\" : \"11226\" , \"city\" : \"BROOKLYN\" , \"loc\" : [ -73.956985 , 40.646694] , \"pop\" : 111396 , \"state\" : \"NY\"}"   
+[3] "{ \"_id\" : \"10021\" , \"city\" : \"NEW YORK\" , \"loc\" : [ -73.958805 , 40.768476] , \"pop\" : 106564 , \"state\" : \"NY\"}"   
+[4] "{ \"_id\" : \"10025\" , \"city\" : \"NEW YORK\" , \"loc\" : [ -73.968312 , 40.797466] , \"pop\" : 100027 , \"state\" : \"NY\"}"   
+[5] "{ \"_id\" : \"90201\" , \"city\" : \"BELL GARDENS\" , \"loc\" : [ -118.17205 , 33.969177] , \"pop\" : 99568 , \"state\" : \"CA\"}"
+> 
+

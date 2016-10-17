@@ -1,0 +1,80 @@
+#include<iostream>
+#include<sys/types.h>
+#include<cstring>
+#include<cstdlib>
+#include<unistd.h>
+using namespace std;
+
+int main() {
+
+	int i=0,j=0,len,n,fd[2];
+	pid_t pid;
+	char str[20], revstr[20];
+	
+	cout<<"\nEnter a string: ";
+	cin>>str;
+	
+	len = strlen(str);
+	
+	pipe(fd);
+	
+	pid = fork();
+	
+	if(pid < 0)
+	{
+		cout<<"\nError in creating child process"<<endl;
+		exit(1);
+	}
+	else if(pid == 0)
+	{
+		cout<<"\nParent process writing data into pipe"<<endl;
+		close(fd[0]);
+		write(fd[1], str, len);
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nChild reading string from pipe"<<endl;
+		close(fd[1]);
+		n = read(fd[0], str, sizeof(str));
+		
+		cout<<"\nReceived String is: "<<str<<endl;
+		cout<<"\nLength of String is: "<<n<<endl;
+		
+		while(str[i] != '\0'){
+			i++;
+		}
+		i--;
+		for(j=0; j<n; j++, i--)
+		{
+			revstr[j] = str[i];
+		}
+		cout<<"\nReverse String is :"<<revstr<<"\n"<<endl;
+		
+		exit(0);
+		
+	}	
+		
+
+	return 0;
+	
+}
+
+
+/* OUTPUT:
+apr@CCOMPL08-05:~/Desktop$ ./a.out
+
+Enter a string: abcd
+
+Child reading string from pipe
+
+Parent process writing data into pipe
+
+Received String is: abcd
+
+Length of String is: 4
+
+Reverse String is :dcba
+
+apr@CCOMPL08-05:~/Desktop$ 
+*/

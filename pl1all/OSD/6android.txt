@@ -1,0 +1,41 @@
+Source Code:
+
+package com.example.app;
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.*;
+
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.os.Build;
+
+public class MainActivity extends ActionBarActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+TextView text = new TextView(this);
+text.setText("All system information:- \n"
++"\n OS version: "   +System.getProperty("os.version")
++"\n OS Name:"+System.getProperty("os.name")
++"\n OS Architecture:"+System.getProperty("os.arch")
++"\n Manufacturer:"+ android.os.Build.MANUFACTURER
++"\n Board:"+ android.os.Build.BOARD
++"\n Brand:"+ android.os.Build.BRAND
++"\n CPU_ABI:"+ android.os.Build.CPU_ABI
++"\n Device:"+ android.os.Build.DEVICE
++"\n Host:"+ android.os.Build.HOST
++"\n Model:"+ android.os.Build.MODEL
++"\n Product:"+ android.os.Build.PRODUCT
++"\n TYPE:"+ android.os.Build.TYPE
++"\n User:"+ android.os.Build.USER);
+setContentView(text);
+}
+}
+

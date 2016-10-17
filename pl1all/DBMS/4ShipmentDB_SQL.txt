@@ -1,0 +1,276 @@
+PL-1 DMSA Assignment 4
+Shipment Database using MySQL
+
+mysql> create database SHIPMENT_24;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| COMPANYTE_3142018  |
+| SHIPMENT_24        |
+| company            |
+| company_31420005   |
+| company_3142005    |
+| company_60         |
+| mysql              |
+| performance_schema |
+| studentdb          |
++--------------------+
+10 rows in set (0.04 sec)
+
+mysql> use SHIPMENT_24;
+Database changed
+
+--------------------------Tables Creation:--------------------
+
+mysql> create table customer(
+    -> cust_id int primary key,
+    -> cust_name varchar(20),
+    -> ann_rev int default 10000,
+    -> cust_type varchar(20)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table truck(
+    -> truck_no int primary key,
+    -> driver varchar(20)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table city(
+    -> city_name varchar(20) primary key,
+    -> population int
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> create table shipment(
+    -> ship_id int primary key,
+    -> cust_id int,
+    -> weight int default 10,
+    -> truck_no int,
+    -> dest varchar(20),
+    -> sh_date date,
+    -> foreign key(cust_id) references customer(cust_id),
+    -> foreign key(truck_no) references truck(truck_no),
+    -> foreign key(dest) references city(city_name)
+    -> );
+Query OK, 0 rows affected (0.14 sec)
+
+------------------------TABLE STRUCTURES:--------------------
+
+mysql> show tables;
++-----------------------+
+| Tables_in_SHIPMENT_24 |
++-----------------------+
+| city                  |
+| customer              |
+| shipment              |
+| truck                 |
++-----------------------+
+4 rows in set (0.00 sec)
+
+mysql> desc customer;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| cust_id   | int(11)     | NO   | PRI | NULL    |       |
+| cust_name | varchar(20) | YES  |     | NULL    |       |
+| ann_rev   | int(11)     | YES  |     | 10000   |       |
+| cust_type | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> desc truck;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| truck_no | int(11)     | NO   | PRI | NULL    |       |
+| driver   | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> desc city;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| city_name  | varchar(20) | NO   | PRI | NULL    |       |
+| population | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc shipment;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ship_id  | int(11)     | NO   | PRI | NULL    |       |
+| cust_id  | int(11)     | YES  | MUL | NULL    |       |
+| weight   | int(11)     | YES  |     | 10      |       |
+| truck_no | int(11)     | YES  | MUL | NULL    |       |
+| dest     | varchar(20) | YES  | MUL | NULL    |       |
+| sh_date  | date        | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+
+----------------------VALUE INSERTIONS:-----------------------
+
+
+mysql> insert into city values('Mumbai', 5000000);
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into truck values(101, 'Atul');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into customer values(111, 'Adam', 5000000, 'regular');
+Query OK, 1 row affected (0.03 sec)
+
+
+mysql> insert into shipment values(1, 111, 10, 101, 'Mumbai', '2016/01/01');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+
+
+--------------------------Show Tables:----------------------
+
+mysql> select * from city;
++-----------+------------+
+| city_name | population |
++-----------+------------+
+| Kolhapur  |     300000 |
+| Mulshi    |      30000 |
+| Mumbai    |    5000000 |
+| Nagpur    |    2500000 |
+| Nashik    |     100000 |
+| Pune      |    3000000 |
++-----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from truck;
++----------+--------+
+| truck_no | driver |
++----------+--------+
+|      101 | Atul   |
+|      202 | Bheem  |
+|      303 | Chaand |
+|      404 | Dinesh |
+|      505 | Emran  |
+|      606 | Farhan |
++----------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customer;
++---------+-----------+----------+-----------+
+| cust_id | cust_name | ann_rev  | cust_type |
++---------+-----------+----------+-----------+
+|     111 | Adam      |  5000000 | regular   |
+|     234 | Bob       |  7000000 | wholesale |
+|     278 | Danny     | 10000000 | retail    |
+|     567 | Emma      | 80000000 | regular   |
+|     678 | Chad      |  9000000 | retail    |
+|     901 | Phoebe    | 20000000 | wholesale |
++---------+-----------+----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from shipment;
++---------+---------+--------+----------+--------+------------+
+| ship_id | cust_id | weight | truck_no | dest   | sh_date    |
++---------+---------+--------+----------+--------+------------+
+|       0 |     278 |     10 |      202 | Nagpur | 2015-10-10 |
+|       1 |     111 |     10 |      101 | Mumbai | 2016-01-01 |
+|       2 |     234 |     20 |      202 | Mumbai | 2016-02-02 |
+|       3 |     678 |     30 |      303 | Mumbai | 2016-03-03 |
+|       4 |     278 |     40 |      404 | Pune   | 2016-04-04 |
+|       5 |     567 |     50 |      505 | Pune   | 2016-05-05 |
+|       6 |     901 |     60 |      606 | Nashik | 2016-06-06 |
+|       7 |     901 |     70 |      606 | Pune   | 2015-07-07 |
+|       8 |     278 |     40 |      202 | Nashik | 2015-08-08 |
+|       9 |     567 |     90 |      404 | Mumbai | 2015-09-09 |
+|      10 |     567 |     90 |      404 | Pune   | 2015-09-09 |
++---------+---------+--------+----------+--------+------------+
+
+11 rows in set (0.00 sec)
+
+
+---------------------------QUERIES:------------------------
+
+1. What are the names of customers who have sent packages (shipments) to Mumbai city?
+
+mysql> mysql> select c.cust_name, s.dest from customer c, shipment s where c.cust_id = s.cust_id AND s.dest = 'Mumbai'; 
++-----------+--------+
+| cust_name | dest   |
++-----------+--------+
+| Adam      | Mumbai |
+| Bob       | Mumbai |
+| Chad      | Mumbai |
+| Emma      | Mumbai |
++-----------+--------+
+4 rows in set (0.00 sec)
+
+
+2. What are the names and populations of cities that have received shipments weighing over 50 Kg?
+
+mysql> select distinct c.city_name, c.population from city c, shipment s where s.dest = c.city_name AND s.weight>50;
++-----------+------------+
+| city_name | population |
++-----------+------------+
+| Mumbai    |    5000000 |
+| Nashik    |     100000 |
+| Pune      |    3000000 |
++-----------+------------+
+3 rows in set (0.00 sec)
+
+3. Who are the customers having over 80,00,000 in annual revenue who have sent shipments weighing less than 50 Kg?
+
+mysql> select distinct c.cust_name, c.ann_rev from customer c, shipment s where  c.cust_id = s.cust_id AND s.weight<80 AND c.ann_rev > 8000000;
++-----------+----------+
+| cust_name | ann_rev  |
++-----------+----------+
+| Danny     | 10000000 |
+| Emma      | 80000000 |
+| Chad      |  9000000 |
+| Phoebe    | 20000000 |
++-----------+----------+
+4 rows in set (0.00 sec)
+
+4. Who are the customers having over 1000000 in annual revenue who have sent shipments weighing less than 10 kg or have sent a shipment to Mumbai?
+
+mysql> select c.cust_name, c.ann_rev from customer c, shipment s where c.cust_id = s.cust_id AND (s.weight<10 OR s.dest = 'Mumbai');
++-----------+----------+
+| cust_name | ann_rev  |
++-----------+----------+
+| Adam      |  5000000 |
+| Bob       |  7000000 |
+| Emma      | 80000000 |
+| Chad      |  9000000 |
++-----------+----------+
+4 rows in set (0.00 sec)
+
+
+5. Who are the drivers who have delivered shipments for customers with annual revenue over 2000000 , to cities with populations over 3000000?
+
+
+mysql> select distinct t.driver from customer c, truck t, shipment s, city ct where s.truck_no = t.truck_no AND s.cust_id = c.cust_id AND s.dest = ct.city_name AND c.ann_rev > 2000000 AND ct.population > 3000000;
++--------+
+| driver |
++--------+
+| Atul   |
+| Bheem  |
+| Dinesh |
+| Chaand |
++--------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    char o;
+    float num1,num2;
+    
+    cout<<"\nEnter 1st number: ";
+    cin>>num1;
+    cout<<"\nEnter 2nd number: ";
+    cin>>num2;
+    
+    cout<<"\nEnter operator either + or - or * or /: ";
+    cin>> o;
+    
+    switch(o) {
+        case '+':
+            cout<<"Sum is: "<<num1+num2<<endl;
+            break;
+        case '-':
+            cout<<"Difference is: " <<num1-num2<<endl;
+            break;
+        case '*':
+            cout<<"Product is: "<<num1*num2<<endl;
+            break;
+        case '/':
+            cout<<"Division is: "<<num1/num2<<endl;
+            break;
+        default:
+            cout<<"Error! operator is not correct"<<endl;
+            break;
+    }
+    return 0;
+}

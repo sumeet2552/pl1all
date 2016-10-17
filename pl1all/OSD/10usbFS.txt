@@ -1,0 +1,138 @@
+#Asgn B13 USB Device File Management
+
+import os
+
+while True:
+	print "\nMENU: "
+	print "\n1.Mount the USB"
+	print "\n2.Check disk space availability"
+	print "\n3.Get block details of the USB"
+	print "\n4.Check file system status of USB"
+	print "\n5.Provide all rights to specific user"
+	print "\n6.Exit"
+	choice = input()
+	
+	if choice == 1:
+		os.system("lsblk")
+		print "Enter the name of the USB you wish to mount: "
+		name = raw_input()
+		os.system("mkdir abc")
+		os.system("sudo mount /dev/"+name+" abc")
+		os.system("df -h")
+
+	elif choice == 2:
+		os.system("df /dev/"+name)
+		
+	elif choice == 3:
+		os.system("blkid /dev/"+name)
+	
+	elif choice == 4:
+		os.system("sudo umount /dev/"+name)
+		os.system("e2fsck -y -v /dev/"+name)
+			
+	elif choice == 5:
+		print "Enter name of user: "
+		user = raw_input()
+		os.system("chown "+user+" /dev/"+name)
+		
+	else:
+		exit()
+		
+
+'''
+
+
+Output:
+oct@ubuntu:~/Desktop$ python usbFS.py
+USB Device File Management
+Enter the name of the drive you want to mount: PD
+
+1.Mounting the pendrive
+2.Checking the disk space availability
+3.Get the block details of the usb
+4.Get the status of the file-system of the usb
+5.Provide all rights to specific user
+6.Exit
+Choose your option ?
+1
+NAME    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda       8:0    0 931.5G  0 disk 
+├─sda1    8:1    0   500M  0 part /boot/efi
+├─sda2    8:2    0    40M  0 part 
+├─sda3    8:3    0   128M  0 part 
+├─sda4    8:4    0   750M  0 part 
+├─sda5    8:5    0 249.6G  0 part 
+├─sda6    8:6    0   470M  0 part 
+├─sda7    8:7    0 334.5G  0 part 
+├─sda8    8:8    0 253.9G  0 part 
+├─sda9    8:9    0    11G  0 part 
+├─sda10   8:10   0  76.8G  0 part /
+└─sda11   8:11   0   3.9G  0 part [SWAP]
+sdb       8:16   1     2G  0 disk 
+└─sdb1    8:17   1     2G  0 part /media/oct/PD
+sr0     11:0    1 41.6M  0 rom  /media/oct/CDROM
+sr1     11:1    1 1024M  0 rom  
+
+1.Mounting the pendrive
+2.Checking the disk space availability
+3.Get the block details of the usb
+4.Get the status of the file-system of the usb
+5.Provide all rights to specific user
+6.Exit
+Choose your option ?
+2
+Filesystem     1K-blocks  Used Available Use% Mounted on
+/dev/sdb1       15171568   584  15170984   1% /media/oct/PD
+
+1.Mounting the pendrive
+2.Checking the disk space availability
+3.Get the block details of the usb
+4.Get the status of the file-system of the usb
+5.Provide all rights to specific user
+6.Exit
+Choose your option ?
+3
+/dev/sdb1: LABEL="PD" UUID="12B1-0B0B" TYPE="vfat"
+
+1.Mounting the pendrive
+2.Checking the disk space availability
+3.Get the block details of the usb
+4.Get the status of the file-system of the usb
+5.Provide all rights to specific user
+6.Exit
+Choose your option ?
+4
+fsck.fat 3.0.27 (2014-11-12)
+Starting check/repair pass.
+Checking file /
+Checking file /usbFS.py (USBFS.PY)
+Checking file /IMG001.EXE
+Checking file /MOVIES.EXE
+Checking file /oct
+Checking file /usbFS.py~ (USBFS.PY~)
+Starting verification pass.
+Checking file /
+Checking file /usbFS.py (USBFS.PY)
+Checking file /IMG001.EXE
+Checking file /MOVIES.EXE
+Checking file /oct
+Checking file /usbFS.py~ (USBFS.PY~)
+/dev/sdb1: 5 files, 73/1896446 clusters
+
+1.Mounting the pendrive
+2.Checking the disk space availability
+3.Get the block details of the usb
+4.Get the status of the file-system of the usb
+5.Provide all rights to specific user
+6.Exit
+Choose your option ?
+5
+Enter the name of the user to grant all the file system rights : oct
+total 576
+-rwxr-xr-x 1 oct oct 460939 Feb  8  2016 IMG001.exe
+-rwxr-xr-x 1 oct oct 102400 May  5  2011 movies.exe
+-rw-r--r-- 1 oct oct   1207 Sep 14 22:00 usbFS.py
+-rw-r--r-- 1 oct oct   1207 Sep 14 21:59 usbFS.py~
+oct@ubuntu:~/Desktop$ 
+
+'''

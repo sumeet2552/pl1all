@@ -1,0 +1,176 @@
+import os
+
+while True:
+	print "\nMENU: "
+	print "\n1.Create 20MB File"
+	print "\n2.Format it as EXT3 File System"
+	print "\n3.Create mount point"
+	print "\n4.Mount the file system"
+	print "\n5.Unmount the file system"
+	print "\n6.Exit"
+	choice = input()
+	
+	if choice == 1:
+		os.system("dd if=/dev/zero of=disk_image count=40960")
+
+	elif choice == 2:
+		os.system("/sbin/mkfs -t ext3 -j disk_image")
+		
+	elif choice == 3:
+		os.system("mkdir fs")
+	
+	elif choice == 4:
+		os.system("sudo mount -o loop disk_image fs")
+		print "File System Mounted: "
+		os.system("df -h")
+	
+	elif choice == 5:
+		os.system("sudo umount fs")
+		print "File System Unmounted: "
+		os.system("df -h")
+		
+	else:
+		exit()
+		
+'''
+OUTPUT:
+apr@CCOMPL08-05:~/Desktop$ python try.py 
+
+MENU: 
+
+1.Create 20MB File
+
+2.Format it as EXT3 File System
+
+3.Create mount point
+
+4.Mount the file system
+
+5.Unmount the file system
+
+6.Exit
+1
+40960+0 records in
+40960+0 records out
+20971520 bytes (21 MB) copied, 0.095203 s, 220 MB/s
+
+MENU: 
+
+1.Create 20MB File
+
+2.Format it as EXT3 File System
+
+3.Create mount point
+
+4.Mount the file system
+
+5.Unmount the file system
+
+6.Exit
+2
+mke2fs 1.42.9 (4-Feb-2014)
+disk_image is not a block special device.
+Proceed anyway? (y,n) y
+Discarding device blocks: done                            
+Filesystem label=
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+Stride=0 blocks, Stripe width=0 blocks
+5136 inodes, 20480 blocks
+1024 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=20971520
+3 block groups
+8192 blocks per group, 8192 fragments per group
+1712 inodes per group
+Superblock backups stored on blocks: 
+	8193
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (1024 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+
+MENU: 
+
+1.Create 20MB File
+
+2.Format it as EXT3 File System
+
+3.Create mount point
+
+4.Mount the file system
+
+5.Unmount the file system
+
+6.Exit
+3
+mkdir: cannot create directory ‘fs’: File exists
+
+MENU: 
+
+1.Create 20MB File
+
+2.Format it as EXT3 File System
+
+3.Create mount point
+
+4.Mount the file system
+
+5.Unmount the file system
+
+6.Exit
+4
+File System Mounted: 
+Filesystem      Size  Used Avail Use% Mounted on
+udev            2.0G  4.0K  2.0G   1% /dev
+tmpfs           394M  3.6M  390M   1% /run
+/dev/sda1        23G   13G  8.5G  61% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+none            5.0M     0  5.0M   0% /run/lock
+none            2.0G  964K  2.0G   1% /run/shm
+none            100M   72K  100M   1% /run/user
+/dev/loop0       19M  177K   18M   1% /home/mrunmayi/Desktop/PL-1/OSD/fs
+
+MENU: 
+
+1.Create 20MB File
+
+2.Format it as EXT3 File System
+
+3.Create mount point
+
+4.Mount the file system
+
+5.Unmount the file system
+
+6.Exit
+5
+File System Unmounted: 
+Filesystem      Size  Used Avail Use% Mounted on
+udev            2.0G  4.0K  2.0G   1% /dev
+tmpfs           394M  3.6M  390M   1% /run
+/dev/sda1        23G   13G  8.5G  61% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+none            5.0M     0  5.0M   0% /run/lock
+none            2.0G  964K  2.0G   1% /run/shm
+none            100M   68K  100M   1% /run/user
+
+MENU: 
+
+1.Create 20MB File
+
+2.Format it as EXT3 File System
+
+3.Create mount point
+
+4.Mount the file system
+
+5.Unmount the file system
+
+6.Exit
+6
+apr@CCOMPL08-05:~/Desktop$ 
+'''

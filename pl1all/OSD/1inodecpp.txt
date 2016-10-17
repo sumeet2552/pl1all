@@ -1,0 +1,101 @@
+/*
+Asgn A4 Inodes
+
+Code:
+
+inode.cpp
+*/
+#include<iostream>
+#include<sys/stat.h>
+#include<time.h>
+#include<cstdlib>
+#include<cstring>
+using namespace std;
+
+int main(){
+
+
+	int value;
+	char path[200];
+	struct stat sbuff;
+	
+	cout<<"\nEnter the absolute file path: ";
+	cin>>path;
+	
+	value = stat(path, &sbuff);
+	
+	if(value >= 0)
+	{
+	
+		cout<<"\nFile Information: "<<endl;
+		cout<<"\nDevice Number: "<<sbuff.st_dev<<endl;
+		cout<<"\nInode Number: "<<sbuff.st_ino<<endl;
+		cout<<"\nFile Mode: "<<sbuff.st_mode<<endl;
+		cout<<"\nUser ID of owner: "<<sbuff.st_uid<<endl;
+		cout<<"\nGroup ID of owner: "<<sbuff.st_gid<<endl;
+		cout<<"\nNumber of Links: "<<sbuff.st_nlink<<endl;
+		cout<<"\nFile Size: "<<sbuff.st_size<<endl;
+		cout<<"\nBlock Size: "<<sbuff.st_blksize<<endl;
+		
+		cout<<"\nFile Permissions: ";
+		cout<<((S_ISDIR(sbuff.st_mode)) ? "d" : "-");
+		cout<<((sbuff.st_mode & S_IRUSR) ? "r" : "-");
+		cout<<((sbuff.st_mode & S_IWUSR) ? "w" : "-");
+		cout<<((sbuff.st_mode & S_IXUSR) ? "x" : "-");
+		cout<<((sbuff.st_mode & S_IRGRP) ? "r" : "-");
+		cout<<((sbuff.st_mode & S_IWGRP) ? "w" : "-");
+		cout<<((sbuff.st_mode & S_IXGRP) ? "x" : "-");
+		cout<<((sbuff.st_mode & S_IROTH) ? "r" : "-");
+		cout<<((sbuff.st_mode & S_IWOTH) ? "w" : "-");
+		cout<<((sbuff.st_mode & S_IXOTH) ? "x" : "-");
+		
+		cout<<"\nLast Accessed Time: "<<ctime(&sbuff.st_atime)<<endl;
+		cout<<"\nLast Modified Time: "<<ctime(&sbuff.st_mtime)<<endl;
+		cout<<"\nLast Changed Time: "<<ctime(&sbuff.st_ctime)<<endl;
+	
+	}
+	else
+	{
+		cout<<"\nSorry no such file exists!"<<endl;
+		
+	}
+
+	return 0;
+}
+
+
+/*
+OUTPUT:
+
+apr@CCOMPL08-05:~/Desktop$ g++ inode.cpp
+apr@CCOMPL08-05:~/Desktop$ ./a.out
+
+Enter absolute file path: 
+/etc/passwd
+
+FILE INFORMATION: 
+
+Device Number: 2059
+
+Inode Number: 3018063
+
+File Mode: 33188
+
+Number of Hard Links: 1
+
+User ID of owner: 0
+
+Group ID of owner: 0
+
+File Size: 2408
+
+File Permisssions: -rw-r--r--
+
+Last Access Time: Thu Jun 23 10:33:56 2016
+
+Last Modified Time: Wed Apr  6 10:51:30 2016
+
+Last Changed Time: Wed Apr  6 10:51:30 2016
+
+
+*/

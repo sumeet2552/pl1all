@@ -1,0 +1,304 @@
+PL-1 DBMS Assignment 1
+Company Department Database
+
+
+mysql> create table dept (dno int primary key,
+    -> dname varchar(20),
+    -> loc varchar(20));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc dept;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int(11)     | NO   | PRI | NULL    |       |
+| dname | varchar(20) | YES  |     | NULL    |       |
+| loc   | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.06 sec)
+
+mysql> insert into dept values(20, 'Research', 'Dallas');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into dept values(30, 'Sales', 'Chicago');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into dept values(40, 'Operations', 'Boston');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into dept values(50, 'Marketing', 'Detroit');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from dept;
++-----+------------+----------+
+| dno | dname      | loc      |
++-----+------------+----------+
+|  10 | Accounting | New York |
+|  20 | Research   | Dallas   |
+|  30 | Sales      | Chicago  |
+|  40 | Operations | Boston   |
+|  50 | Marketing  | Detroit  |
++-----+------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> create table emp(
+    -> empno int primary key,
+    -> ename varchar(20),
+    -> job varchar(20),
+    -> mgr int,
+    -> hiredate date,
+    -> salary int,
+    -> comm int,
+    -> dno int,
+    -> foreign key(dno) references dept(dno)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc emp;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| empno    | int(11)     | NO   | PRI | NULL    |       |
+| ename    | varchar(20) | YES  |     | NULL    |       |
+| job      | varchar(20) | YES  |     | NULL    |       |
+| mgr      | int(11)     | YES  |     | NULL    |       |
+| hiredate | date        | YES  |     | NULL    |       |
+| salary   | int(11)     | YES  |     | NULL    |       |
+| comm     | int(11)     | YES  |     | NULL    |       |
+| dno      | int(11)     | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> insert into emp values(7369, 'smith', 'clerk', 7902, '1980/12/17', 800, 300, 20);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp values(7499, 'allen', 'salesman', 7698, '1981/02/20', 1600, 300, 30);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into emp values(7123,'elena','VP',7603,'1979-09-25',20000,400,10);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp values (7902, 'sarah', 'cto', 6897, '2015/10/02', 1500, 200, 40);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp values (7698, 'josh', 'senior director', 0000, '2010/01/23', 50000, 5000, 50);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp values (6432, 'ted', 'business head', 7698, '2006/09/05', 10000, 2000, 50); 
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp values (6789, 'chloe', 'manager', 7123, '2016/01/26', 7000, 700, 10);
+Query OK, 1 row affected (0.03 sec)
+
+
+
+
+
+mysql> select * from emp;
++-------+-------+-----------------+------+------------+--------+------+------+
+| empno | ename | job             | mgr  | hiredate   | salary | comm | dno  |
++-------+-------+-----------------+------+------------+--------+------+------+
+|  6432 | ted   | business head   | 7698 | 2006-09-05 |  10000 | 2000 |   50 |
+|  6789 | chloe | manager         | 7123 | 2016-01-26 |   7000 |  700 |   10 |
+|  7123 | elena | VP              | 7603 | 1979-09-25 |  20000 |  400 |   10 |
+|  7369 | smith | clerk           | 7902 | 1980-12-17 |    800 |  300 |   20 |
+|  7499 | allen | salesman        | 7698 | 1981-02-20 |   1600 |  300 |   30 |
+|  7698 | josh  | senior director |    0 | 2010-01-23 |  50000 | 5000 |   50 |
+|  7902 | sarah | cto             | 6897 | 2015-10-02 |   1500 |  200 |   40 |
++-------+-------+-----------------+------+------------+--------+------+------+
+7 rows in set (0.00 sec)
+
+----------------------------QUERIES------------------------------
+
+1. List employees not belonging to department 30, 40, or 10.
+
+mysql> select * from emp where dno NOT IN (10,30,40);
++-------+-------+-----------------+------+------------+--------+------+------+
+| empno | ename | job             | mgr  | hiredate   | salary | comm | dno  |
++-------+-------+-----------------+------+------------+--------+------+------+
+|  6432 | ted   | business head   | 7698 | 2006-09-05 |  10000 | 2000 |   50 |
+|  7369 | smith | clerk           | 7902 | 1980-12-17 |    800 |  300 |   20 |
+|  7698 | josh  | senior director |    0 | 2010-01-23 |  50000 | 5000 |   50 |
++-------+-------+-----------------+------+------------+--------+------+------+
+3 rows in set (0.00 sec)
+
+2. List the different designations in the company.
+
+mysql> select distinct job from emp;
++-----------------+
+| job             |
++-----------------+
+| business head   |
+| manager         |
+| VP              |
+| clerk           |
+| salesman        |
+| senior director |
+| cto             |
++-----------------+
+7 rows in set (0.00 sec)
+
+3. List the names of employees who are not eligible for commission.
+
+mysql> select ename from emp where comm IS NULL;
++-------+
+| ename |
++-------+
+| smith |
++-------+
+1 row in set (0.00 sec)
+
+4. List employees whose names either start or end with 'S'.
+
+mysql> select * from emp where ename like 's%' or ename like '%s';
++-------+-------+-------+------+------------+--------+------+------+
+| empno | ename | job   | mgr  | hiredate   | salary | comm | dno  |
++-------+-------+-------+------+------------+--------+------+------+
+|  7369 | smith | clerk | 7902 | 1980-12-17 |    800 | NULL |   20 |
+|  7902 | sarah | cto   | 6897 | 2015-10-02 |   1500 |  200 |   40 |
++-------+-------+-------+------+------------+--------+------+------+
+2 rows in set (0.00 sec)
+
+5. List employees whose names have letter 'a' as second letter in their names.
+
+mysql> select * from emp where ename like '_a%';
++-------+-------+------+------+------------+--------+------+------+
+| empno | ename | job  | mgr  | hiredate   | salary | comm | dno  |
++-------+-------+------+------+------------+--------+------+------+
+|  7902 | sarah | cto  | 6897 | 2015-10-02 |   1500 |  200 |   40 |
++-------+-------+------+------+------------+--------+------+------+
+1 row in set (0.00 sec)
+
+6. List the number of employees working with the company.
+
+mysql> select count(*) "Count" from emp;
++-------+
+| Count |
++-------+
+|     7 |
++-------+
+1 row in set (0.00 sec)
+
+7. List the number of employees and average salary for employees in department 20
+
+mysql> select count(*) "Count", avg(salary) "Average Salary" from emp where dno = 20;
++-------+----------------+
+| Count | Average Salary |
++-------+----------------+
+|     1 |       800.0000 |
++-------+----------------+
+1 row in set (0.01 sec)
+
+8. List name, salary and PF amount of all employees. (PF is calculated as 10% of basic salary.
+
+mysql> select ename, salary, 0.1*salary "PF" from emp;
++-------+--------+--------+
+| ename | salary | PF     |
++-------+--------+--------+
+| ted   |  10000 | 1000.0 |
+| chloe |   7000 |  700.0 |
+| elena |  20000 | 2000.0 |
+| smith |    800 |   80.0 |
+| allen |   1600 |  160.0 |
+| josh  |  50000 | 5000.0 |
+| sarah |   1500 |  150.0 |
++-------+--------+--------+
+7 rows in set (0.00 sec)
+
+9. List names of employees who are more than 2 years old in the company.
+
+mysql> select ename from emp where Round(datediff(sysdate(), hiredate)/365) > 2;
++-------+
+| ename |
++-------+
+| ted   |
+| elena |
+| smith |
+| allen |
+| josh  |
++-------+
+5 rows in set (0.00 sec)
+
+10. List the employee details in the ascending order of their basic salary.
+
+mysql> select * from emp order by salary;
++-------+-------+-----------------+------+------------+--------+------+------+
+| empno | ename | job             | mgr  | hiredate   | salary | comm | dno  |
++-------+-------+-----------------+------+------------+--------+------+------+
+|  7369 | smith | clerk           | 7902 | 1980-12-17 |    800 | NULL |   20 |
+|  7902 | sarah | cto             | 6897 | 2015-10-02 |   1500 |  200 |   40 |
+|  7499 | allen | salesman        | 7698 | 1981-02-20 |   1600 |  300 |   30 |
+|  6789 | chloe | manager         | 7123 | 2016-01-26 |   7000 |  700 |   10 |
+|  6432 | ted   | business head   | 7698 | 2006-09-05 |  10000 | 2000 |   50 |
+|  7123 | elena | VP              | 7603 | 1979-09-25 |  20000 |  400 |   10 |
+|  7698 | josh  | senior director |    0 | 2010-01-23 |  50000 | 5000 |   50 |
++-------+-------+-----------------+------+------------+--------+------+------+
+7 rows in set (0.00 sec)
+
+11. List the department numbers and number of employees in each department.
+
+mysql> select count(*) "Count", dno "DEPT NO" from emp group by dno;
++-------+---------+
+| Count | DEPT NO |
++-------+---------+
+|     2 |      10 |
+|     1 |      20 |
+|     1 |      30 |
+|     1 |      40 |
+|     2 |      50 |
++-------+---------+
+5 rows in set (0.00 sec)
+
+12. List the total salary, maximum and minimum salary and average salary of the employees, for department 20.
+
+mysql> select sum(salary) "Total Salary", max(salary) "Max Salary", min(salary) "Min Salary", avg(salary) "Avg Salary"  from emp where dno = 20;
++--------------+------------+------------+------------+
+| Total Salary | Max Salary | Min Salary | Avg Salary |
++--------------+------------+------------+------------+
+|          800 |        800 |        800 |   800.0000 |
++--------------+------------+------------+------------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select sum(salary) "Total Salary", max(salary) "Max Salary", min(salary) "Min Salary", avg(salary) "Avg Salary"  from emp where dno = 50; 
++--------------+------------+------------+------------+
+| Total Salary | Max Salary | Min Salary | Avg Salary |
++--------------+------------+------------+------------+
+|        60000 |      50000 |      10000 | 30000.0000 |
++--------------+------------+------------+------------+
+1 row in set (0.00 sec)
+
+13. Display the employees who have more salary as that of Smith
+
+mysql> select * from emp where salary>(select salary from emp where ename = 'smith');
++-------+-------+-----------------+------+------------+--------+------+------+
+| empno | ename | job             | mgr  | hiredate   | salary | comm | dno  |
++-------+-------+-----------------+------+------------+--------+------+------+
+|  6432 | ted   | business head   | 7698 | 2006-09-05 |  10000 | 2000 |   50 |
+|  6789 | chloe | manager         | 7123 | 2016-01-26 |   7000 |  700 |   10 |
+|  7123 | elena | VP              | 7603 | 1979-09-25 |  20000 |  400 |   10 |
+|  7499 | allen | salesman        | 7698 | 1981-02-20 |   1600 |  300 |   30 |
+|  7698 | josh  | senior director |    0 | 2010-01-23 |  50000 | 5000 |   50 |
+|  7902 | sarah | cto             | 6897 | 2015-10-02 |   1500 |  200 |   40 |
++-------+-------+-----------------+------+------------+--------+------+------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

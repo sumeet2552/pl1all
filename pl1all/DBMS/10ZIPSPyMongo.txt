@@ -1,0 +1,42 @@
+>>> from pymongo import MongoClient
+>>> conn=MongoClient()
+>>> db=conn.mydata
+>>> db
+Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), u'mydata')
+>>> cur=db.zip.find()
+>>> cur.next()
+{u'city': u'AGAWAM', u'state': u'MA', u'_id': u'01001', u'pop': 15338, u'loc': [-72.622739, 42.070206]}
+>>> for d in cur:
+...     print d
+... 
+>>>{u'city': u'DOUGLAS', u'state': u'AK', u'_id': u'99824', u'pop': 1802, u'loc': [-134.395041, 58.275597]}
+{u'city': u'GUSTAVUS', u'state': u'AK', u'_id': u'99826', u'pop': 258, u'loc': [-135.761542, 58.42835]}
+{u'city': u'HAINES', u'state': u'AK', u'_id': u'99827', u'pop': 2246, u'loc': [-135.542032, 59.251886]}
+{u'city': u'HOONAH', u'state': u'AK', u'_id': u'99829', u'pop': 1670, u'loc': [-135.558435, 58.032237]}
+{u'city': u'PETERSBURG', u'state': u'AK', u'_id': u'99833', u'pop': 4253, u'loc': [-133.160683, 56.827134]}
+{u'city': u'SITKA', u'state': u'AK', u'_id': u'99835', u'pop': 8638, u'loc': [-135.316569, 57.051436]}
+{u'city': u'SKAGWAY', u'state': u'AK', u'_id': u'99840', u'pop': 692, u'loc': [-135.301794, 59.468471]}
+{u'city': u'KETCHIKAN', u'state': u'AK', u'_id': u'99901', u'pop': 13886, u'loc': [-131.683175, 55.372028]}
+{u'city': u'THORNE BAY', u'state': u'AK', u'_id': u'99919', u'pop': 744, u'loc': [-132.513815, 55.66086]}
+{u'city': u'CRAIG', u'state': u'AK', u'_id': u'99921', u'pop': 1398, u'loc': [-133.117081, 55.47317]}
+{u'city': u'HYDABURG', u'state': u'AK', u'_id': u'99922', u'pop': 891, u'loc': [-132.633175, 55.137406]}
+{u'city': u'HYDER', u'state': u'AK', u'_id': u'99923', u'pop': 116, u'loc': [-130.124915, 55.925867]}
+{u'city': u'KLAWOCK', u'state': u'AK', u'_id': u'99925', u'pop': 851, u'loc': [-133.055503, 55.552611]}
+{u'city': u'METLAKATLA', u'state': u'AK', u'_id': u'99926', u'pop': 1469, u'loc': [-131.579001, 55.121491]}
+{u'city': u'POINT BAKER', u'state': u'AK', u'_id': u'99927', u'pop': 426, u'loc': [-133.376372, 56.307858]}
+{u'city': u'WRANGELL', u'state': u'AK', u'_id': u'99929', u'pop': 2573, u'loc': [-132.352918, 56.433524]}
+{u'city': u'KETCHIKAN', u'state': u'AK', u'_id': u'99950', u'pop': 422, u'loc': [-133.18479, 55.942471]} 
+
+
+POPULATION OF CLINTON
+>>> cur=db.zip.find({"city":"CLINTON"},{"pop":1})
+>>> for d in cur:
+...     print d
+... 
+
+ALL CITIES OF MA STATE
+>>> cur=db.zip.find({"state":"MA"},{"city":1})
+>>> for d in cur:
+...     print d
+... 
+

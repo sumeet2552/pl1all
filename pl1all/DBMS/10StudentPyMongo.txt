@@ -1,0 +1,24 @@
+PYMONGO ON STUDENT COLLECTION
+
+>>> from pymongo import MongoClient
+>>> curr=MongoClient()
+>>> db=curr.institute
+>>> db
+Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), u'institute')
+
+
+>>> cur=db.student.find()
+>>> for d in cur:
+...     print d
+
+
+>>> db.student.count()
+4
+
+
+>>> cur=db.student.find({'branch':'it','aoi':'java'})
+>>> cur.next()
+
+
+>>> cur=db.student.find({'branch':'computer','aoi':'networking'})
+>>> cur.next()

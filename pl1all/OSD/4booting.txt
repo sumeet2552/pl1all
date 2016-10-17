@@ -1,0 +1,18 @@
+#Asgn B5 Booting- BIOS/UEFI
+
+
+import os
+
+fd =  "/sys/firmware/efi"
+
+if (os.path.isdir(fd)):
+	print ("System is booted using UEFI");
+else:
+	print ("System is booted Using Legacy Boot ROMBIOS");
+0
+
+'''
+OUTPUT:
+
+System is booted Using Legacy Boot ROMBIOS
+

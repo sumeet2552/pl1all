@@ -1,0 +1,129 @@
+Zips database Indexing and Aggregation in mongoDB
+
+Import Zips database in MongoDB by using mongoimport.
+
+mrunmayi@ubuntu:~$ mongoimport -d temp -c zipdb --file /home/mrunmayi/Desktop/zips.json 
+connected to: 127.0.0.1 
+2016-10-15T19:26:08.519+0530 check 9 29467 
+2016-10-15T19:26:08.865+0530 imported 29467 objects 
+mrunmayi@ubuntu:~$ 
+
+---------------------------------------------------------------------
+INDEXING: 
+Query a document and display query plan using explain command.
+
+> db.zip.find({"city":"BARRE"}).explain(); 
+{ 
+	"cursor" : "BasicCursor", 
+	"isMultiKey" : false, 
+	"n" : 2, 
+	"nscannedObjects" : 29467, 
+	"nscanned" : 29467, 
+	"nscannedObjectsAllPlans" : 29467, 
+	"nscannedAllPlans" : 29467, 
+	"scanAndOrder" : false, 
+	"indexOnly" : false, 
+	"nYields" : 230, 
+	"nChunkSkips" : 0, 
+	"millis" : 9, 
+	"server" : "ubuntu:27017", 
+	"filterSet" : false 
+} 
+
+	  BasicDBObject query = new BasicDBObject();
+        query.put("city", "BARRE");
+        
+        BasicDBObject fields = new BasicDBObject();
+        fields.put("state", 1);
+        fields.put("city", 1);
+        fields.put("pop", 1);
+        
+        
+        DBCursor cursor = coll.find(query,fields);
+        DBObject qplan = coll.find(query, fields).explain();
+	System.out.println("Query Plan: "+qplan);
+
+
+---------------------------------------------------------------------
+
+Apply index on _id in ascending order then quey a document and display query plan using explain command.
+
+> db.zip.ensureIndex({"city":1}); 
+{ 
+	"createdCollectionAutomatically" : false, 
+	"numIndexesBefore" : 1, 
+	"numIndexesAfter" : 2, 
+	"ok" : 1 
+} 
+> db.zip.find({"city":"BARRE"}).explain(); 
+{ 
+	"cursor" : "BtreeCursor city_1", 
+	"isMultiKey" : false, 
+	"n" : 2, 
+	"nscannedObjects" : 2, 
+	"nscanned" : 2, 
+	"nscannedObjectsAllPlans" : 2, 
+	"nscannedAllPlans" : 2, 
+	"scanAndOrder" : false, 
+	"indexOnly" : false, 
+	"nYields" : 0, 
+	"nChunkSkips" : 0, 
+	"millis" : 0, 
+	"indexBounds" : { 
+		"city" : [ 
+			[ 
+				"BARRE", 
+				"BARRE" 
+			] 
+		] 
+	}, 
+	"server" : "ubuntu:27017", 
+	"filterSet" : false 
+} 
+
+
+---------------------------------------------------------------------
+2. Display total no of documents in the collection.
+
+> db.zip.count();
+29467
+> 
+
+----------------------------------------------------------------------
+
+3. Display total no of documents in the collection with city ‘BARRE’.
+
+> db.zip.count({"city":"BARRE"});
+2
+
+----------------------------------------------------------------------
+
+4. Display total no of documents in the collection state wise.
+ db.zip.aggregate({"$group":{"_id":"$state",docscount:{"$sum":1}}});
+
+----------------------------------------------------------------------
+
+5. Display total population in each state.
+
+db.zip.aggregate({"$group":{"_id":"$state",population:{"$sum":"$pop"}}});
+ 
+----------------------------------------------------------------------
+6. To return all states with a population greater than 10 million.
+
+db.zip.aggregate({"$group":{"_id":"$state",people:{"$sum":"$pop"}}},{"$match":{"people":{"$gt":10000000}}});
+
+ 
+---------------------------------------------------------------------
+
+7. To return the average populations for cities in each state.
+
+db.zip.aggregate({"$group":{"_id":"$state",population:{"$avg":"$pop"}}});
+
+---------------------------------------------------------------------
+
+8. To return all states with a population greater than 10 million, sorted in descending order.
+
+> db.zip.aggregate({"$group":{"_id":"$state",people:{"$sum":"$pop"}}},{"$match":{"people":{"$gt":10000000}}},{"$sort":{"people":-1}});
+
+
+	

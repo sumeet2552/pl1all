@@ -1,0 +1,52 @@
+PL 1 DMSA Asgn 8
+Map Reduce
+
+// Import zips database into MongoDB
+
+mrunmayi@ubuntu:~$ mongoimport -d mydata -c zip --file /home/mrunmayi/Desktop/zips.jsonconnected to: 127.0.0.1
+2016-09-29T11:10:21.654+0530 check 9 29467
+2016-09-29T11:10:22.653+0530 imported 29467 objects
+mrunmayi@ubuntu:~$ 
+
+// ON NEW TERMINAL -------- MAP REDUCE
+
+mrunmayi@ubuntu:~$ mongo
+MongoDB shell version: 2.6.12
+connecting to: test
+> show dbs;
+admin   (empty)
+local   0.078GB
+mydata  0.078GB
+test    0.078GB
+> use mydata;
+switched to db mydata
+> show collections
+system.indexes
+zip
+> var map=function(){if(this.state){emit(this.state,1);}} 	
+// mapper fn -- scans every document, if new state found it emits " state_name:1 " for each
+
+> var red=function(key,values){return Array.sum(values);}	
+// reducer fn -- collects all the key values ie stae name, 1 and it combines same state names and adds their '1's thus it summarizes or aggregates 
+
+> var res=db.zip.mapReduce(map,red,{out:"count1"});		
+// calls the decalared functions-- out will store the count
+
+> db[res.result].find()				// display the result
+{ "_id" : "AK", "value" : 196 }
+{ "_id" : "AL", "value" : 567 }
+{ "_id" : "AR", "value" : 578 }
+{ "_id" : "AZ", "value" : 270 }
+{ "_id" : "CA", "value" : 1523 }
+{ "_id" : "CO", "value" : 416 }
+{ "_id" : "CT", "value" : 263 }
+{ "_id" : "DC", "value" : 24 }
+{ "_id" : "DE", "value" : 53 }
+{ "_id" : "FL", "value" : 826 }
+{ "_id" : "GA", "value" : 635 }
+{ "_id" : "HI", "value" : 80 }
+{ "_id" : "IA", "value" : 923 }
+{ "_id" : "ID", "value" : 244 }
+{ "_id" : "IL", "value" : 1240 }
+Type "it" for more
+> 

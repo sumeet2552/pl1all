@@ -1,0 +1,27 @@
+'''
+Asgn A6 Sockets
+Code:
+1)Server
+
+'''
+#!/usr/bin/python           
+
+import socket               
+
+s = socket.socket()         
+host = socket.gethostname()
+port = 9996	                
+s.bind((host, port))       
+
+s.listen(5)                 
+while True:
+   	c,addr = s.accept()
+	print 'Got connection from: ', addr
+	content = c.recv(65536)
+	fd = open("Received.txt", "w")
+	fd.write(content)
+	print 'File received successfully'
+	print 'File contents are: ',content
+	fd.close()
+	c.send('Thank you for connecting')
+	c.close()                

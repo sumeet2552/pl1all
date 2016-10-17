@@ -1,0 +1,372 @@
+PL 1 Assignment DBMS Assignment 5
+Student Collection MongoDB
+
+> db.stud.find().pretty();
+{
+	"_id" : ObjectId("5796f12432cbd6f528a94829"),
+	"std_id" : 1,
+	"std_name" : "anil",
+	"branch" : "comp",
+	"addr" : {
+		"pin" : 411038,
+		"city" : "pune",
+		"area" : "kothrud"
+	},
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 75
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 85
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 70
+		}
+	],
+	"ai" : [
+		"java",
+		"databases",
+		"web"
+	]
+}
+
+{
+	"_id" : ObjectId("5796f47032cbd6f528a9482b"),
+	"std_id" : 3,
+	"std_name" : "chinmay",
+	"branch" : "mech",
+	"addr" : {
+		"pin" : 408038,
+		"city" : "mumbai",
+		"area" : "bandra"
+	},
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 95
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 100
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 90
+		}
+	],
+	"ai" : [
+		"java",
+		"alogorithm",
+		"c++"
+	]
+}
+{
+	"_id" : ObjectId("5796f4b332cbd6f528a9482c"),
+	"std_id" : 4,
+	"std_name" : "dinesh",
+	"branch" : "civil",
+	"addr" : {
+		"pin" : 408038,
+		"city" : "mumbai",
+		"area" : "worli"
+	},
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 45
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 60
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 20
+		}
+	],
+	"ai" : [
+		"java",
+		"web",
+		"c++"
+	]
+}
+{
+	"_id" : ObjectId("5796f51e32cbd6f528a9482d"),
+	"std_id" : 5,
+	"std_name" : "eshan",
+	"branch" : "it",
+	"addr" : {
+		"pin" : 411038,
+		"city" : "pune",
+		"area" : "konhwa"
+	},
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 99
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 98
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 95
+		}
+	],
+	"ai" : [
+		"algorithm",
+		"web",
+		"c++"
+	]
+}
+{
+	"_id" : ObjectId("5796f5dd32cbd6f528a9482e"),
+	"std_id" : 2,
+	"std_name" : "bobby",
+	"branch" : "entc",
+	"addr" : {
+		"pin" : 411038,
+		"city" : "pune",
+		"area" : "nagar"
+	},
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 34
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 82
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 65
+		}
+	],
+	"ai" : [
+		"java",
+		"networking",
+		"c++"
+	]
+}
+
+---------------------------------------------------------------------------------------------------------------------
+
+Update student branch from IT to Computer of studentid 3.
+
+ db.stud.update(
+... {"std_id" : 3},
+... {"$set" : { "branch" : "comp" } } );
+> db.stud.find({"std_id" : 3).pretty();
+{
+	"_id" : ObjectId("5796f47032cbd6f528a9482b"),
+	"std_id" : 3,
+	"std_name" : "chinmay",
+	"branch" : "comp",
+	"addr" : {
+		"pin" : 408038,
+		"city" : "mumbai",
+		"area" : "bandra"
+	},
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 95
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 100
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 90
+		}
+	],
+	"ai" : [
+		"java",
+		"alogorithm",
+		"c++"
+	]
+}
+---------------------------------------------------------------------------------------------------------------------
+
+Add interest Python in studentid 5.
+
+> db.stud.update( { "std_id" : 5 }, { "$push" : { "ai" : "python" } } );
+> db.stud.find({ "std_id" : 5}).pretty();
+{
+	"_id" : ObjectId("5796f51e32cbd6f528a9482d"),
+	"addr" : {
+		"pin" : 411038,
+		"city" : "pune",
+		"area" : "konhwa"
+	},
+	"ai" : [
+		"algorithm",
+		"web",
+		"c++",
+		"python"
+	],
+	"branch" : "it",
+	"std_id" : 5,
+	"std_name" : "eshan",
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 99
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 98
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 95
+		}
+	]
+}
+> 
+---------------------------------------------------------------------------------------------------------------------
+
+Add one subject name and its score for Student Id 2.
+
+> db.stud.update( {"std_id" : 2 }, { "$push" : 
+					{ "subject" : 
+						{ 
+						"sub_name" : "osd", 
+						"score" : 60 
+						} 
+					} 
+				    } );
+> db.stud.find({ "std_id" : 2}).pretty();
+{
+	"_id" : ObjectId("5796fa2232cbd6f528a94830"),
+	"addr" : {
+		"pin" : 411038,
+		"city" : "pune",
+		"area" : "nagar"
+	},
+	"ai" : [
+		"java",
+		"networking",
+		"c++"
+	],
+	"branch" : "entc",
+	"std_id" : 2,
+	"std_name" : "bobby",
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 34
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 82
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 65
+		},
+		{
+			"sub_name" : "osd",
+			"score" : 60
+		}
+	]
+}
+> 
+---------------------------------------------------------------------------------------------------------------------
+
+Change City name from Pune to Delhi.
+
+> db.stud.update( {"std_id" : 1 }, 
+... { "$set" : { "addr.city" : "delhi" } } );
+> db.stud.find({ "std_id" : 1}).pretty();
+{
+	"_id" : ObjectId("5796f12432cbd6f528a94829"),
+	"addr" : {
+		"area" : "kothrud",
+		"city" : "delhi",
+		"pin" : 411038
+	},
+	"ai" : [
+		"java",
+		"databases",
+		"web"
+	],
+	"branch" : "comp",
+	"std_id" : 1,
+	"std_name" : "anil",
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 75
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 85
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 70
+		}
+	]
+}
+
+---------------------------------------------------------------------------------------------------------------------
+
+Remove record with student id 3.
+
+db.stud.remove( {"std_id" : 3 } );
+
+---------------------------------------------------------------------------------------------------------------------
+
+Add new Key Hobbies with values.
+
+db.stud.update( { "std_id" : 1 }, { "$set" : {"Hobbies" : [ "read", "write" ] } } );
+> db.stud.find({ "std_id" : 1}).pretty();
+{
+	"Hobbies" : [
+		"read",
+		"write"
+	],
+	"_id" : ObjectId("5796f12432cbd6f528a94829"),
+	"addr" : {
+		"area" : "kothrud",
+		"city" : "delhi",
+		"pin" : 411038
+	},
+	"ai" : [
+		"java",
+		"databases",
+		"web"
+	],
+	"branch" : "comp",
+	"std_id" : 1,
+	"std_name" : "anil",
+	"subject" : [
+		{
+			"sub_name" : "toc",
+			"score" : 75
+		},
+		{
+			"sub_name" : "dbms",
+			"score" : 85
+		},
+		{
+			"sub_name" : "dcwsn",
+			"score" : 70
+		}
+	]
+}
+> 
+
+---------------------------------------------------------------------------------------------------------------------
+Drop collection.
+
+db.stud.drop();
+
+

@@ -1,0 +1,152 @@
+#include<iostream>
+#include<unistd.h>
+#include<cstdlib>
+using namespace std;
+
+int main() {
+
+	int choice;
+	while(true)
+	{
+	cout<<"\nMENU: \n1. Show free memory \n2.Create Ramdrive \n3.Mount Ramdrive \n4.Run Program \n5.Unmount Ramdrive \n6.Exit"<<endl;
+	cin>>choice;
+	
+	switch(choice)
+	{
+		case 1:
+			system("free -m");
+			break;
+		
+		case 2:
+			system("mkdir ./ramdisk");
+			cout<<"\nDisk created successfully"<<endl;
+			system("ls -l");
+			break;
+		
+		case 3:
+			system("sudo mount -t tmpfs -o size=5m tmpfs ./ramdisk");
+			cout<<"\nDrive mounted successfully"<<endl;
+			system("df -h");
+			break;
+			
+		case 4:
+			system("cp /home/mrunmayi/Desktop/PL-1/OSD/calc.cpp ./ramdisk");
+			system("g++ ./ramdisk/calc.cpp");
+			system("./a.out");
+			break;
+			
+		case 5:
+			system("sudo umount ./ramdisk");
+			cout<<"Drive unmounted successfully"<<endl;
+			system("df -h");
+			break;
+			
+		case 6:
+			exit(0);
+			break;
+	}
+	}
+	return 0;
+}
+
+/*OUTPUT:
+
+
+MENU: 
+1. Show free memory 
+2.Create Ramdrive 
+3.Mount Ramdrive 
+4.Run Program 
+5.Unmount Ramdrive 
+6.Exit
+1
+             total       used       free     shared    buffers     cached
+Mem:          3935       3578        356         35        150       1082
+-/+ buffers/cache:       2345       1589
+Swap:         2044         19       2025
+
+MENU: 
+1. Show free memory 
+2.Create Ramdrive 
+3.Mount Ramdrive 
+4.Run Program 
+5.Unmount Ramdrive 
+6.Exit
+2
+
+Disk created successfully
+total 2709
+
+-rw-rw-r-- 1 mrunmayi mrunmayi     2594 Oct 13 13:32 5_ramdrive.cpp
+-rw-rw-r-- 1 mrunmayi mrunmayi     2592 Oct 13 13:32 5_ramdrive.cpp~
+-rwxrwxr-x 1 mrunmayi mrunmayi    13434 Oct 17 00:44 a.out
+-rw-rw-r-- 1 mrunmayi mrunmayi      751 Oct 17 00:43 calc.cpp
+drwxrwxr-x 2 mrunmayi mrunmayi     4096 Oct 17 00:44 ramdisk
+
+
+MENU: 
+1. Show free memory 
+2.Create Ramdrive 
+3.Mount Ramdrive 
+4.Run Program 
+5.Unmount Ramdrive 
+6.Exit
+3
+
+Drive mounted successfully
+Filesystem      Size  Used Avail Use% Mounted on
+udev            2.0G  4.0K  2.0G   1% /dev
+tmpfs           394M  3.6M  390M   1% /run
+/dev/sda1        23G   13G  8.5G  61% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+none            5.0M     0  5.0M   0% /run/lock
+none            2.0G  964K  2.0G   1% /run/shm
+none            100M   64K  100M   1% /run/user
+/dev/loop0       19M  177K   18M   1% /home/mrunmayi/Desktop/PL-1/OSD/fs
+tmpfs           5.0M     0  5.0M   0% /home/mrunmayi/Desktop/PL-1/OSD/ramdisk
+
+MENU: 
+1. Show free memory 
+2.Create Ramdrive 
+3.Mount Ramdrive 
+4.Run Program 
+5.Unmount Ramdrive 
+6.Exit
+4
+
+Enter the 1st number: 23
+
+Enter the 2nd number: 13
+
+Enter operator: /
+Division is: 1.76923
+MENU: 
+1. Show free memory 
+2.Create Ramdrive 
+3.Mount Ramdrive 
+4.Run Program 
+5.Unmount Ramdrive 
+6.Exit
+5
+Drive unmounted successfully
+Filesystem      Size  Used Avail Use% Mounted on
+udev            2.0G  4.0K  2.0G   1% /dev
+tmpfs           394M  3.6M  390M   1% /run
+/dev/sda1        23G   13G  8.5G  61% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+none            5.0M     0  5.0M   0% /run/lock
+none            2.0G  964K  2.0G   1% /run/shm
+none            100M   64K  100M   1% /run/user
+/dev/loop0       19M  177K   18M   1% /home/mrunmayi/Desktop/PL-1/OSD/fs
+
+MENU: 
+1. Show free memory 
+2.Create Ramdrive 
+3.Mount Ramdrive 
+4.Run Program 
+5.Unmount Ramdrive 
+6.Exit
+6
+apr@CCOMPL08-05:~/Desktop$ 
+
+*/
